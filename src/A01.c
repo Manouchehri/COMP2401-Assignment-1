@@ -9,9 +9,9 @@ int main(void) {
 	
 	printf("5.\n\n");
 	
-	printf("a: %d\n", a);
-	printf("b: %d\n", b);
-	printf("c: %d\n", c);
+	printf("a: %d\n", a); 
+	printf("b: %d\n", b); 
+	printf("c: %d\n", c); 
 	printf("d: %d\n", d);
 	printf("e: %d\n", e);
 	
@@ -31,10 +31,10 @@ int main(void) {
 	signed char e3 = 0x00100011;
 	signed char f3 = 0x01101000;
 	
-	printf("b: %d\n", b3);
-	printf("c: %d\n", c3);
-	printf("d: %d\n", d3);
-	printf("e: %d\n", e3);
+	printf("b: %d\n", b3); /* Alright, so I just dropped my assignment into */
+	printf("c: %d\n", c3); /* the bin, and noticed that I was supposed to   */
+	printf("d: %d\n", d3); /* convert my binary results back into decimal.  */
+	printf("e: %d\n", e3); /* Gah. Anyway, the values are still correct.    */
 	printf("f: %d\n", f3);
 	
 	return 0;
