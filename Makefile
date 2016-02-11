@@ -1,33 +1,28 @@
-CHK_SOURCES = src/test.c
+CHK_SOURCES = src/A01.c
 CHK_SOURCES_C = $(filter %.c,$(CHK_SOURCES))
 outdir = bin
-STAMP = submit
-# STAMP = $(printf "r%s.%s - %s - %s.zip" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)" "$(date --iso-8601=seconds --utc)" "$(git --no-pager show -s --format='%an' HEAD)" | sed s/:/./g)
 
-.PHONY: submission clean debug static windows-static compress
+.PHONY: clean debug check-syntax check-syntax-clang check-syntax-gcc TA
 
 all: debug
 
-# Placeholder, needs to be fixed.
-submission:
-	make clean
-	zip -9r $(STAMP).zip bin/
-
 clean:
-	-rm -ir *.zip $(outdir)/
+	-rm -ir $(outdir)/
 	mkdir $(outdir)/
+	
+check-syntax: check-syntax-gcc check-syntax-clang
+check-syntax-gcc:
+	gcc -fsyntax-only -Wall -Wextra -pedantic -Wno-variadic-macros \
+		-Wmissing-prototypes -Wstrict-prototypes \
+		-Wold-style-definition -std=c99 $(CHK_SOURCES_C)
 
-debug:
-	gcc -ggdb3 -O0 $(CHK_SOURCES_C) -o $(outdir)/test
-
-static:
-	gcc -s -w -static -m32 -O3 $(CHK_SOURCES_C) -o $(outdir)/test
-	make compress
-
-windows-static:
-	i686-w64-mingw32-cc -s -w -static -O3 $(CHK_SOURCES_C) -o $(outdir)/test.exe
-	make compress
-
-compress:
-	strip --strip-all $(outdir)/*
-	upx --ultra-brute -q $(outdir)/*
+check-syntax-clang:
+	clang -fsyntax-only -Wall -Wextra -pedantic -Wno-variadic-macros \
+		-Wmissing-prototypes -Wstrict-prototypes \
+		-Wold-style-definition -std=c99 $(CHK_SOURCES_C)
+		
+debug: check-syntax
+	gcc -ggdb3 -O0 $(CHK_SOURCES_C) -o $(outdir)/A01 -std=c99
+	
+TA:
+	gcc -Wall -o $(outdir)/A01 -std=c99 $(CHK_SOURCES_C)
